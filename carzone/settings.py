@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     # apps 
     'pages.apps.PagesConfig',
     'cars.apps.CarsConfig',
+    'accounts.apps.AccountsConfig',
 ]
 
 MIDDLEWARE = [

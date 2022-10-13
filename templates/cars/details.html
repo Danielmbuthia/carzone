@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
-
+{% block title %}
+{{ car.car_title |title }}
+{% endblock %}
 {% block content %}
 
 {% load static %}
@@ -38,7 +40,7 @@
                             <div class="active item carousel-item" data-slide-number="0">
                                 <img src="{{car.car_photo.url}}" class="img-fluid" alt="slider-car">
                             </div>
-                            {% if ar.car_photo_1 %}
+                            {% if car.car_photo_1 %}
                                 <div class="item carousel-item" data-slide-number="1">
                                     <img src="{{car.car_photo_1.url}}" class="img-fluid" alt="slider-car">
                                 </div>
