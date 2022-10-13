@@ -23,5 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('',include(('pages.urls', 'pages'),namespace='pages')),
     path('cars/',include(('cars.urls', 'cars'),namespace='cars')),
-    path('accounts/',include(('accounts.url', 'accounts'),namespace='accounts'))
+    path('accounts/',include(('accounts.url', 'accounts'),namespace='accounts')),
+    path('social_accounts/',include('allauth.urls')),
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -55,6 +55,5 @@ def dashboard(request):
 
 def logout(request):
     auth_logout(request)
-    messages.success(request,'You have successfully logged out')
     return redirect('pages:home')
 
