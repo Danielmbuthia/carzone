@@ -25,6 +25,7 @@
                     <!-- Heading start -->
                     <div class="heading-car clearfix">
                         <div class="pull-left">
+                            {% include "includes/messages.html" %}
                             <h3>{{ car.car_title |title }}</h3>
                             <h6>
                                 <i class="flaticon-pin"></i>{{car.state}} {{car.city}},
@@ -148,9 +149,12 @@
                 <div class="sidebar-right">
                     <!-- Advanced search start -->
                     <div class="widget advanced-search d-none-992">
-                        <button class="btn btn-outline-danger bomd btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Send message</button>
-
-
+                        {% if user.is_authenticated %}
+                             <button class="btn btn-outline-danger bomd btn-block btn-lg" data-toggle="modal" data-target="#inquiryModal">Send message</button>
+                        {% else %}
+                            <a href="{% url 'accounts:login' %} "> <button class="btn btn-outline-danger bomd btn-block btn-lg" >Login To Inquiry</button></a>
+                        {% endif %}
+                       
                         <br>
                         <h3 class="sidebar-title">Refine Your Search</h3>
                         <ul>
@@ -209,21 +213,28 @@
                         <div class="modal-content">
                           <div class="contact-dealer modal-header">
                             <!-- <h5 class="modal-title" id="inquiryModalLabel">Contact Dealer</h5> -->
-                            <img src="img/logos/logo-black-white.png">
+                            <center><img src="{% static 'img/logos/logo-black-white.png' %}"></center>
                             <button type="button" class="close" data-dismiss="modal">
                               <span>&times;</span>
                             </button>
                           </div>
                           <div class="modal-body">
-                            <form action="#">
+                            <form action="{% url 'contacts:inquiry_create' %}" method='POST'>
+                                {% csrf_token %}
+                                {% if user.is_authenticated %}
+                                   <input type='hidden' value="{{user.id}}" name='user'>
+                                {% else %}
+                                    <input type='hidden' value='0' name='user'>
+                                {% endif %}
+                                <input type="hidden" value="{{car.id}}" name="car">
                                 <div class="form-group">
                                   <label for="name" class="col-form-label">Hello, My Name is</label>
                                   <div class="row">
-                                    <div class="col">
-                                      <input type="text" name="first_name" class="form-control" placeholder="First Name" required>
+                                    <div class="col"> 
+                                         <input type="text" name="first_name" class="form-control" value="{{user.first_name}}" placeholder="First Name" required>
                                     </div>
                                     <div class="col">
-                                      <input type="text" name="last_name" class="form-control" placeholder="Last Name" required>
+                                        <input type="text" name="last_name" class="form-control" value="{{user.last_name}}" placeholder="Last Name" required>
                                     </div>
                                   </div>
                                 </div>
@@ -233,11 +244,12 @@
                                         <option value="I'd like to know your best price for this">I'd like to know your best price for this</option>
                                         <option value="I'd like to test drive this">I'd like to test drive this</option>
                                         <option value="I'd like a history report for this">I'd like a history report for this</option>
+                                        <option value="I'd like to have more photos for this">I'd like to have more photos for this</option>
                                       </select>
                                     </div>
                                 
                                 <div class="form-group">
-                                  <input type="text" name="car_title" class="form-control" value="LAMBORGHINI HURACÁN." readonly>
+                                  <input type="text" name="car_title" class="form-control" value="{{car.car_title}}" readonly>
                                 </div>
                                
                                 <div class="form-group">
@@ -256,7 +268,7 @@
                                   <div class="row">
                                     <div class="col">
                                         <label for="name" class="col-form-label">You can reach me by email at</label>
-                                      <input type="email" name="email" class="form-control" placeholder="Email Address" required>
+                                      <input type="email" name="email" value="{{user.email}}" class="form-control" placeholder="Email Address">
                                     </div>
                                     <div class="col">
                                         <label for="phone" class="col-form-label">or by phone at</label>
@@ -284,7 +296,7 @@
                                 <i class="flaticon-pin"></i>20/F Green Road, Dhanmondi
                             </li>
                             <li>
-                                <i class="flaticon-mail"></i><a href="mailto:info@themevessel.com">info@themevessel.com</a>
+                                <i class="flaticon-mail"></i><a href="mailto:info@themevessel.com">contact@carzone.com</a>
                             </li>
                             <li>
                                 <i class="flaticon-phone"></i><a href="tel:+0477-85x6-552">+0477 85x6 552</a>

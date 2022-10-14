@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load humanize %}
 {% block title %}
   Dashboard
 {% endblock %}
@@ -23,7 +24,6 @@
 	<table class="table table-hover">
 	  <thead>
 		<tr>
-		  <th scope="col">#</th>
 		  <th scope="col">Car Name</th>
 		  <th scope="col">Location</th>
 		  <th scope="col">Price</th>
@@ -31,27 +31,15 @@
 		</tr>
 	  </thead>
 	  <tbody>
-		<tr>
-		  <th scope="row">1</th>
-		  <td>Lamborgini Huracan</td>
-		  <td>Austin</td>
-		  <td>$25000</td>
-		  <td><a href="#" class="btn btn-outline-dark">View Car</a></td>
-		</tr>
-		<tr>
-		  <th scope="row">2</th>
-		  <td>Lamborgini Huracan</td>
-		  <td>Austin</td>
-		  <td>$25000</td>
-		  <td><a href="#" class="btn btn-outline-dark">View Car</a></td>
-		</tr>
-		<tr>
-		  <th scope="row">3</th>
-		  <td>Lamborgini Huracan</td>
-		  <td>Austin</td>
-		  <td>$25000</td>
-		  <td><a href="#" class="btn btn-outline-dark">View Car</a></td>
-		</tr>
+		{% for car in inqueries %}
+			<tr>
+				<td>{{car.car.car_title}}</td>
+				<td>{{car.car.state}} - {{car.car.city}}</td>
+				<td>${{car.car.price | intcomma}}</td>
+				<td><a href="{% url 'cars:car_details' car.car.id %}" class="btn btn-outline-dark">View Car</a></td>
+			</tr>
+		{% endfor %}
+		
 	  </tbody>
 	</table>
 </div>
